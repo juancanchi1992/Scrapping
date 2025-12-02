@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.py[cod]
+
+# IDE/editor
+.idea/
+.vscode/
+
+# Datos de scraping y temporales
+data/
+*.log
+
+# SO
+.DS_Store
