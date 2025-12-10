@@ -50,9 +50,6 @@ COUNTRY_ALIASES: Dict[str, str] = {
     "eeuu": "en-US",
     "en-us": "en-US",
     "us-en": "en-US",
-    "bo": "es-BO",
-    "py": "es-PY",
-    "uy": "es-UY",
 }
 
 

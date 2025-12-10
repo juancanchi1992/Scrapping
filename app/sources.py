@@ -16,6 +16,18 @@ class NewsSource:
 
 # Curated RSS endpoints per country/language. These are intentionally broad
 # to maximize general news coverage.
+ALLOWED_COUNTRIES = {
+    "es-CO",
+    "es-AR",
+    "es-MX",
+    "es-CL",
+    "es-EC",
+    "es-PE",
+    "en-US",
+    "es-ES",
+}
+
+
 SOURCES: List[NewsSource] = [
     NewsSource(
         id="es-es-elpais",
@@ -660,51 +672,27 @@ SOURCES: List[NewsSource] = [
 ]
 
 
-SUPPORTED_COUNTRIES = sorted({source.country for source in SOURCES})
+SUPPORTED_COUNTRIES = sorted(ALLOWED_COUNTRIES)
 
 
 def sources_for_country(country: str) -> List[NewsSource]:
     normalized = country.strip()
-    matches = [s for s in active_sources() if s.country.lower() == normalized.lower()]
+    matches = [
+        s
+        for s in active_sources()
+        if s.country.lower() == normalized.lower()
+    ]
     return matches
 
 
 # Disable feeds that are returning consistent 404/403 to reduce noise.
 DISABLED_SOURCE_IDS = {
-    "es-ar-lanacion",
-    "es-ar-infobae",
-    "es-ar-cronista",
-    "es-ar-eldestape",
-    "es-ar-losandes",
-    "es-ar-diariouno",
-    "es-ar-eldia",
-    "es-ar-pagina12",
-    "es-ar-ambito",
-    "es-co-elespectador",
-    "es-co-semana",
-    "es-co-caracol",
-    "es-co-bluradio",
-    "es-mx-eluniversal",
-    "es-mx-milenio",
-    "es-mx-proceso",
-    "es-pe-larepublica",
-    "es-pe-andina",
-    "es-cl-emol",
-    "es-cl-cooperativa",
-    "es-cl-biobio",
-    "es-cl-adn",
-    "es-cl-24horas",
-    "es-cl-elmostrador",
-    "es-ec-primicias",
-    "es-ec-lahora",
-    "es-ec-metro",
-    "es-ve-talcual",
-    "es-us-reuters",
-    "es-uy-elobservador",
-    "es-py-abc",
-    "es-ar-tyc",
 }
 
 
 def active_sources() -> List[NewsSource]:
-    return [s for s in SOURCES if s.id not in DISABLED_SOURCE_IDS]
+    return [
+        s
+        for s in SOURCES
+        if s.country in ALLOWED_COUNTRIES and s.id not in DISABLED_SOURCE_IDS
+    ]
